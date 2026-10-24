@@ -6,6 +6,7 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PelangganController;
 
 Route::get('/about', function () {
     return view('halaman-about');
@@ -24,3 +25,7 @@ Route::get('/matakuliah', [MatakuliahController::class, 'index']);
 Route::get('/matakuliah/show/{param1?}', [MatakuliahController::class, 'show']);
 
 Route::get('/dashboard', [DashboardController::class, 'index']); 
+
+Route::resource('pelanggan', PelangganController::class);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

@@ -833,7 +833,7 @@
                     <div class="card shadow border-0 text-center p-0">
                         <div class="profile-cover rounded-top"
                             data-background="{{ asset('assets-admin/img/profile-cover.jpg') }}"
-                            style="background: url('{{ asset('assets-admin/img/profile-cover.jpg') }}');"></div>
+                            style="background: url({{ asset('assets-admin/img/profile-cover.jpg') }});"></div>
                         <div class="card-body pb-5">
                             <img src="{{ asset('assets-admin/img/team/profile-picture-1.jpg') }}"
                                 class="avatar-xl rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">

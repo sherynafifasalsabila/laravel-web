@@ -7,6 +7,7 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PortofolioController;
 
 Route::get('/about', function () {
     return view('halaman-about');
@@ -29,3 +30,5 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::resource('pelanggan', PelangganController::class);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::resource('portofolio', PortofolioController::class);

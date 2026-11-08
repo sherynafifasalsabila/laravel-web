@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -7,41 +8,37 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $data['dataUser'] = User::all();
         return view('admin.user.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
+            'name'     => 'required|string|max:100',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        $data['name']     = $request->name;
-        $data['email']    = $request->email;
-        $data['password'] = Hash::make($request->password);
+        try {
+            $data['name']     = $request->name;
+            $data['email']    = $request->email;
+            $data['password'] = Hash::make($request->password);
 
-        User::create($data);
+            User::create($data);
 
-        return redirect()->route('user.index')->with('success', 'Penambahan Data Berhasil!');
+            return redirect()->route('user.index')->with('success', 'Penambahan Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -52,48 +49,50 @@ class UserController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $data['dataUser'] = User::findOrFail($id);
         return view('admin.user.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
 
         $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:8|confirmed',
         ]);
 
-        $user->name  = $request->name;
-        $user->email = $request->email;
+        try {
+            $user->name  = $request->name;
+            $user->email = $request->email;
 
-        // password hanya diubah kalau diisi
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            // password hanya diubah kalau diisi
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
+
+            $user->save();
+
+            return redirect()->route('user.index')->with('success', 'Perubahan Data Berhasil!');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Gagal mengubah data: ' . $e->getMessage());
         }
-
-        $user->save();
-
-        return redirect()->route('user.index')->with('success', 'Perubahan Data Berhasil!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
 
-        return redirect()->route('user.index')->with('success', 'Data berhasil dihapus');
+            return redirect()->route('user.index')->with('success', 'Data berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+        }
     }
 }

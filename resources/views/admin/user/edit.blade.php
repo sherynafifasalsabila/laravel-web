@@ -61,74 +61,41 @@
                     @endif
 
 
-                    <form action="{{ route('user.update', $dataUser->user_id) }}" method="POST">
+                    <form action="{{ route('user.update', $dataUser->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-
-
                         <div class="row mb-4">
 
-
-                            {{-- First Name dan Last Name --}}
-                            <div class="col-lg-4 col-md-6 col-12">
+                            {{-- Name dan Email --}}
+                            <div class="col-lg-6 col-md-6 col-12">
                                 <div class="mb-3">
-                                    <label for="first_name" class="form-label">First Name</label>
-                                    <input type="text" id="first_name" class="form-control" name="first_name"
-                                        value="{{ old('first_name', $dataUser->first_name) }}">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" id="name" class="form-control" name="name"
+                                        value="{{ old('name', $dataUser->name) }}" required>
                                 </div>
 
-
-                                <div class="mb-3">
-                                    <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="text" id="last_name" class="form-control" name="last_name"
-                                        value="{{ old('last_name', $dataUser->last_name) }}">
-                                </div>
-                            </div>
-
-
-                            {{-- Birthday dan Gender --}}
-                            <div class="col-lg-4 col-md-6 col-12">
-                                <div class="mb-3">
-                                    <label for="birthday" class="form-label">Birthday</label>
-                                    <input type="date" id="birthday" class="form-control" name="birthday"
-                                        value="{{ old('birthday', $dataUser->birthday) }}">
-                                </div>
-
-
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label">Gender</label>
-                                    <select id="gender" class="form-control" name="gender">
-                                        <option value="">Pilih Gender</option>
-
-
-                                        <option value="Male"{{ old('gender', $dataUser->gender) == 'Male' ? 'selected' : '' }}>
-                                            Male
-                                        </option>
-
-                                        <option value="Female" {{ old('gender', $dataUser->gender) == 'Female' ? 'selected' : '' }}>
-                                            Female
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            {{-- Email dan Phone --}}
-                            <div class="col-lg-4 col-md-6 col-12">
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" id="email" class="form-control" name="email"
-                                        value="{{ old('email', $dataUser->email) }}">
-                                </div>
-
-
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone</label>
-                                    <input type="text" id="phone" class="form-control" name="phone"
-                                        value="{{ old('phone', $dataUser->phone) }}">
+                                    <input type="email" id="email" class="form-control" name="email"
+                                        value="{{ old('email', $dataUser->email) }}" required>
                                 </div>
                             </div>
 
+                            {{-- Password dan Confirm Password --}}
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        Password <small class="text-muted">(kosongkan jika tidak diubah)</small>
+                                    </label>
+                                    <input type="password" id="password" class="form-control" name="password">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                    <input type="password" id="password_confirmation" class="form-control"
+                                        name="password_confirmation">
+                                </div>
+                            </div>
 
                             {{-- Tombol --}}
                             <div class="col-12">
